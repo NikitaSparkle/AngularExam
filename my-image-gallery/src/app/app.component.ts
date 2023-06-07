@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import './app.component.css';
 
 interface Image {
   id: number;
@@ -24,14 +25,30 @@ interface Image {
 
     <div *ngIf="currentTab !== 'settings'">
       <h2>{{ currentTab | uppercase }}</h2>
-      <div *ngFor="let image of images">
+      <div style="display: inline-block" *ngFor="let image of images">
         <img [src]="image.webformatURL" alt="Image"/>
       </div>
     </div>
   `,
   styles: [`
+
     button {
       margin-right: 10px;
+      height: fit-content;
+      width: fit-content;
+      font-size: 1vw;
+      color: #fff;
+      background-color: #171718;
+      border: 1px solid #000000;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      cursor: pointer;
+      background-color: #0c3da4;
+      border: 1px solid #fff;
+      box-sizing: border-box;
+      transition: 0.3s;
     }
 
     img {
@@ -59,7 +76,7 @@ export class AppComponent {
     console.log("Category: " + category);
     console.log("Current Tab: " + this.currentTab);
     const timestamp = new Date().getTime();
-    const url = `https://pixabay.com/api/?key=${this.apiKey}&category=${category}`;
+    const url = `https://pixabay.com/api/?key=${this.apiKey}&q=${category}`;
     console.log("UR: " + url);
     this.http.get<any>(url).subscribe(response => {
       this.images = response.hits;
